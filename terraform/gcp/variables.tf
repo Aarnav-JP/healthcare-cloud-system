@@ -1,5 +1,6 @@
 variable "gcp_project_id" {
-  description = "hc-analytics-1762414359"
+  description = "GCP Project ID"
+  default     = "hc-analytics-1762414359"
 }
 
 variable "gcp_region" {
