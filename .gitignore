@@ -77,3 +77,8 @@ logs/
 k8s/manifests/config/secrets.yaml
 
 key.txt
+
+aws-config.txt
+
+argocd-access.txt
+k8s/manifests/config/secrets-configmap.yaml

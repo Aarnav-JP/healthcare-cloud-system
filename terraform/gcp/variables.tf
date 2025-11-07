@@ -5,7 +5,7 @@ variable "gcp_project_id" {
 
 variable "gcp_region" {
   description = "GCP region"
-  default     = "asia-south1"
+  default     = "asia-southeast1"
 }
 
 variable "project_name" {

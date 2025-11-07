@@ -5,17 +5,17 @@ resource "google_dataproc_cluster" "flink_cluster" {
   cluster_config {
     master_config {
       num_instances = 1
-      machine_type  = "n1-standard-2"
+      machine_type  = "e2-standard-2"
       disk_config {
-        boot_disk_size_gb = 20
+        boot_disk_size_gb = 50  # Changed from 20 to 50 (minimum 30, using 50 for safety)
       }
     }
 
     worker_config {
       num_instances = 2
-      machine_type  = "n1-standard-2"
+      machine_type  = "e2-standard-2"
       disk_config {
-        boot_disk_size_gb = 20
+        boot_disk_size_gb = 50  # Changed from 20 to 50
       }
     }
 
@@ -25,10 +25,13 @@ resource "google_dataproc_cluster" "flink_cluster" {
     }
 
     gce_cluster_config {
-      network = google_compute_network.vpc.name
-      subnetwork = google_compute_subnetwork.subnet.name
+      #zone         = "asia-south1-c"
+      subnetwork = google_compute_subnetwork.subnet.name  # Added explicit subnetwork
       
       tags = ["flink-cluster"]
+      
+      # Add internal IP only configuration
+      internal_ip_only = false
     }
   }
 }

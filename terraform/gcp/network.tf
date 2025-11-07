@@ -1,6 +1,6 @@
 resource "google_compute_network" "vpc" {
   name                    = "${var.project_name}-vpc"
-  auto_create_subnetworks = false
+  auto_create_subnetworks = false  # Important: this should be false
 }
 
 resource "google_compute_subnetwork" "subnet" {
@@ -29,4 +29,18 @@ resource "google_compute_firewall" "internal" {
   }
 
   source_ranges = ["10.1.0.0/24"]
+}
+
+# Add firewall rule for SSH (helpful for debugging)
+resource "google_compute_firewall" "ssh" {
+  name    = "${var.project_name}-allow-ssh"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["flink-cluster"]
 }
