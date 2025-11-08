@@ -17,13 +17,12 @@ resource "aws_msk_cluster" "kafka" {
 
   encryption_info {
     encryption_in_transit {
-      client_broker = "TLS"
+      client_broker = "PLAINTEXT"
       in_cluster    = true
     }
   }
 
   tags = {
-    Name        = "${var.project_name}-msk"
     Environment = var.environment
   }
 }
@@ -45,6 +44,12 @@ resource "aws_security_group" "msk" {
     to_port     = 9094
     protocol    = "tcp"
     cidr_blocks = [module.vpc.vpc_cidr_block]
+  }
+  ingress {
+    from_port   = 9092
+    to_port     = 9092
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
